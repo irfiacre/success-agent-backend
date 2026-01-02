@@ -1,0 +1,3 @@
+enchant-2
+pandas
+pypdf
