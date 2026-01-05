@@ -1,0 +1,69 @@
+import { Icon } from "@iconify/react";
+import React, { useRef } from "react";
+
+const AttachButton = ({
+  fileName,
+  handleFileChange,
+  setFile,
+  setFileName,
+}: {
+  fileName: string;
+  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setFile: (file: File | null) => void;
+  setFileName: (text: string) => void;
+}) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  return (
+    <div>
+      <input
+        ref={fileInputRef}
+        type="file"
+        onChange={handleFileChange}
+        className="hidden"
+        id="file-upload"
+        accept=".pdf,.doc,.docx,.txt"
+      />
+      <label
+        htmlFor="file-upload"
+        className="flex items-center justify-center p-4 rounded-2xl bg-white/40 backdrop-blur-sm border border-white/30 cursor-pointer hover:bg-white/50 transition-colors"
+      >
+        <Icon icon="tdesign:attach" />
+        <span className="text-gray-700 font-medium">
+          {fileName || "Upload a document"}
+        </span>
+      </label>
+      {fileName && (
+        <div className="mt-2 flex items-center justify-between p-2 bg-white/30 rounded-lg">
+          <span className="text-sm text-gray-700 truncate">{fileName}</span>
+          <button
+            onClick={() => {
+              setFile(null);
+              setFileName("");
+              if (fileInputRef.current) {
+                fileInputRef.current.value = "";
+              }
+            }}
+            className="text-red-500 hover:text-red-700 ml-2"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default AttachButton;
